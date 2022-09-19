@@ -3,18 +3,36 @@
 
 void Initcontact(struct contact* con)
 {
-	memset(con->data, 0, sizeof(con->data));
+	con->data = (struct peopleinform*)malloc(DEFAULT_SZ * sizeof(struct peopleinform));
+	if (con->data == NULL)
+	{
+		return;
+	}
 	con->size = 0;
+	con->capacity = DEFAULT_SZ;
 }
 
+void checkcapacity(struct contact* con)
+{
+	if (con->size == con->capacity)
+	{
+		struct peopleinform* ptr = (struct peopleinform*)realloc(con->data, (con->capacity + 2) * sizeof(struct peopleinform));
+		if (ptr != NULL)
+		{
+			printf("扩容成功\n");
+			con->capacity += 2;
+		}
+		else
+		{
+			printf("增容失败\n");
+		}
+		
+	}
+}
 void addcontact(struct contact* con)
 {
-	if (con->size == MAX)
-	{
-		printf("通讯录已满，无法增加\n");
-	}
-	else
-	{
+	    checkcapacity(con);
+	
 		printf("请输入姓名：\n");
 		scanf("%s", con->data[con->size].name);
 		printf("请输入年龄：\n");
@@ -27,7 +45,7 @@ void addcontact(struct contact* con)
 		scanf("%s", con->data[con->size].addr);
 		con->size++;
 		printf("添加成功\n");
-	}
+	
 }
 
 void showcontact(const struct contact* con)

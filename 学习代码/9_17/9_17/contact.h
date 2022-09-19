@@ -7,7 +7,7 @@
 #define max_tele 14
 #define max_sex 4
 #define max_addr 20
-#define MAX 1000
+#define DEFAULT_SZ 3
 
 struct peopleinform
 {
@@ -19,8 +19,9 @@ struct peopleinform
 };
 struct contact
 {
-	struct peopleinform data[MAX];
+	struct peopleinform *data;
 	int size;
+	int capacity;
 };
 enum option
 {
@@ -41,3 +42,4 @@ void delecontact(struct contact* con);
 void searchcontact(const struct contact* con);
 void modificontact(struct contact* con);
 void sortcontact(struct contact* con);
+void checkcapacity(struct contact* con);
